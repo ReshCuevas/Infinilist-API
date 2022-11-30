@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+		<title>Infinilist</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="SolMusic HTML Template">
+		<meta name="keywords" content="music, html">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<!-- Favicon -->
+		<link href="img/favicon.jpeg" rel="shortcut icon"/>
+	
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
+	 
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/font-awesome.min.css"/>
+		<link rel="stylesheet" href="css/owl.carousel.min.css"/>
+		<link rel="stylesheet" href="css/slicknav.min.css"/>
+	
+		<!-- Main Stylesheets -->
+		<link rel="stylesheet" href="css/style.css"/>
+	
+	
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+			
+</head>
+<body>
+	
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section clearfix">
+		<img class="mt-4" src="img/logo.jpeg" alt="logo">
+		<div class="header-right">
+			<div class="user-panel">
+				<a href="" class="login" data-toggle="modal" data-target="#login" onclick="dohini()">Iniciar sesión</a>
+				<span>|</span>
+				<a href="" class="register" data-toggle="modal" data-target="#regis">Crear cuenta</a>
+			</div> 
+		</div>
+		<ul class="main-menu">
+			<li><a href="index.html">Pagina Principal</a></li>
+			<li><a href="playlist.html">Mis listas</a></li>
+			<li><a href="profile.html">Mi Perfil</a></li>
+			<li><a href="contact.html">Contáctanos</a></li>
+		</ul>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Blog section -->
+	<div class="container">
+		<div class="blog-item" id="ct"></div>
+		<div id="bod"></div>
+		<form method="POST" action = "/upload" enctype="multipart/form-data">
+			<input type="file" name = "doc">
+			<input type="submit">
+		</form>
+	</div>
+	
+
+	<section class="blog-section spad">
+		<div class="container">
+			<!-- Blog post -->
+			<div id="bod"></div>
+			<div class="blog-item" id="ct"></div>
+			<ul id="elem"></ul>
+			<a href="" class="site-btn" data-toggle="modal" data-target="#usure">Borrar lista</a>
+			<a href="" class="site-btn" data-toggle="modal" data-target="#newMax">Añadir elemento</a>
+			
+		</div>
+	</section>
+	<!-- Blog section end -->
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-6 col-lg-7 order-lg-2">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="footer-widget">
+								<h2>About us</h2>
+								<ul>
+									<li><a href="">Our Story</a></li>
+									<li><a href="">Sol Music Blog</a></li>
+									<li><a href="">History</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="footer-widget">
+								<h2>Products</h2>
+								<ul>
+									<li><a href="">Music</a></li>
+									<li><a href="">Subscription</a></li>
+									<li><a href="">Custom Music</a></li>
+									<li><a href="">Footage</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="footer-widget">
+								<h2>Playlists</h2>
+								<ul>
+									<li><a href="">Newsletter</a></li>
+									<li><a href="">Careers</a></li>
+									<li><a href="">Press</a></li>
+									<li><a href="">Contact</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-5 order-lg-1">
+					<img src="img/logo.png" alt="">
+					<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+					<div class="social-links">
+						<a href=""><i class="fa fa-instagram"></i></a>
+						<a href=""><i class="fa fa-pinterest"></i></a>
+						<a href=""><i class="fa fa-facebook"></i></a>
+						<a href=""><i class="fa fa-twitter"></i></a>
+						<a href=""><i class="fa fa-youtube"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer section end -->
+	
+	<!-- Modal -->
+	<div class="modal fade" id="usure" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title">¿Seguro que quieres borrar la lista?</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+						</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" onclick="DoctorDeleto()"><a href="playlist.html">Borrar</a></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="newMax" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title">¿Que quieres añadir?</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+						</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<input type="text" placeholder="Pon el link aquí" id="newUrl">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="elementorMaxSteele(localStorage.currentList)">Añadir</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<div class="modal fade" id="newL" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h4 class="modal-title">Lista Nueva</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+						</div>
+				<form class="modal-body">
+					<div class="container-fluid">
+						<div class="form-group">
+							<input type="text" class="form-control" id="nomNEWL" aria-describedby="helpId" 
+							 placeholder="Nombre de la lista" required>
+						</div>
+						<div class="form-group container">
+							<h6 class="mb-1">Tipo de lista</h6>
+							<input type="radio" name="L" id="l1" value="music"> Música
+							<br>
+							<input type="radio" name="L" id="l2" value="videos"> Vídeos
+							<br>
+							<input type="radio" name="L" id="l3" value="otra"> Otra
+
+						</div>
+						<div class="col-md-12">
+							<textarea id="descr" placeholder="Descripción de la lista"></textarea>
+						</div>
+						<div class="form-group" required>
+							<input type="text" class="form-control" id="icon" aria-describedby="helpId" 
+								placeholder="Url de imagen de lista">
+						</div>
+					</div>
+				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="creatorL()" >Crear</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form enctype="text/plain"> 
+                <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Login</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                          <label for="mail">Correo</label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">👤</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Correo registrado" aria-label="Username" aria-describedby="basic-addon1" id="userCR" required>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="contra">Password</label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon2">🔑</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Contraseña registrada" aria-label="Username" aria-describedby="basic-addon2" id='userPASS' required>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer w-100.d-flex.justify-content-end">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" onclick="login()" data-dismiss="modal">Entrar</button>
+                </div>
+                
+                <small class="mb-3 mr-3 nav-link" data-toggle="modal" data-target="#regis" data-dismiss="modal" style="text-align: right;">¿No tienes cuenta? <a href="">Registrate aquí</a></small>
+            </div>
+            </form>
+        </div>
+	</div>
+	
+	    <!-- Modal -->
+		<div class="modal fade" id="regis" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<form enctype="text/plain">
+					<div class="modal-content">
+							<div class="modal-header">
+									<h4 class="modal-title">Crear cuenta</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										</button>
+							</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="form-group row">
+								<div class=" col-6">
+									<input type="text" class="form-control" required id="nombreUser" aria-describedby="helpId" placeholder="Nombre o nombres">
+								</div>
+								<div class=" col-6">
+									<input type="text" class="form-control" id="apeUser" aria-describedby="helpId" 
+									placeholder="Apellidos" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="correoUser" aria-describedby="helpId" 
+								 placeholder="Tu correo" required>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" id="passUser" aria-describedby="helpId" 
+									placeholder="Contraseña" required minlength="6" >
+							</div>
+							<div class="form-group">
+								 <input type="password" class="form-control" id="confirmUser" aria-describedby="helpId" 
+									placeholder="Confirmar contraseña" required minlength="6">
+							</div>
+							<div class="form-group">
+								 <input type="date" class="form-control" id="fechaUser" aria-describedby="helpId" 
+									placeholder="01/01/2000" max="06/08/2000" required>
+							</div>
+							<div class="form-group container">
+								<input type="radio" name="sx" id="box1" value="M"> Mujer
+								<br>
+								<input type="radio" name="sx" id="box2" value="H"> Hombre
+							</div>
+							<div class="form-group" required>
+								<input type="text" class="form-control" id="imgUser" aria-describedby="helpId" 
+									placeholder="Url de imagen de perfil">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary border" data-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary" onclick="register()" data-dismiss="modal">Registrarse</button>
+					</div>
+					</div>
+				 </form> 
+			</div>
+		</div>
+	
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/mixitup.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/functions.js"></script>
+	<script>
+
+		function getS(id){
+    		let xhr = new XMLHttpRequest;
+    		xhr.open('GET','/api/getSingle/'+ id);
+    		xhr.setRequestHeader('Content-Type','application/json');
+    		xhr.send();
+    		xhr.onload = function(){
+        		let databoy = JSON.parse(xhr.response);
+        		console.log(databoy);
+        		document.getElementById("ct").innerHTML += `<img src="${databoy.imagen}" alt="">
+        		<h3>${databoy.nombre}</h3>
+        		<div id="deL">${databoy.descripcion}</div>`;
+        		for(let i = 0; i < databoy.elementos.length; i++){
+            		document.getElementById("elem").innerHTML += `<li>${databoy.elementos[i]}</li> <br>`
+        		}
+    		}
+		}
+
+		getS(localStorage.currentlist);
+
+	</script>
+
+	</body>
+
+</html>
