@@ -4,19 +4,20 @@ const fs = require('fs');
 const port = 3000;
 const cors = require('cors');
 const shortid = require('shortid');
+const users = JSON.parse(fs.readFileSync('usuarios.json'))
 const mongoose = require('./db/mongodb-connect');
 const {mongo} = require('mongoose');
 const multer  = require('multer');
 const path = require('path');
-const socketio = require('socket.io');
+const socketIo = require('socket.io');
 app.use(express.json());
 app.use(express.static(__dirname+'/public'));
 app.use(cors());
 
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//                  Multer
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//Multer
 const storage = multer.diskStorage({ 
     destination: (req,file, cb) => {
         cb(null, process.cwd()+"/upfiles/");
@@ -29,99 +30,6 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage: storage})
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//                  Socket.io
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-const server = require('http').createServer(app);
-const io = socketio(server);
-
-io.on('connection', client => {
-  client.on('event', data => { /* … */ });
-  client.on('disconnect', () => { /* … */ });
-});
-//server.listen(3000);
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//                  Swagger
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/*
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const swaggerOptions = require('./swagger.config');
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-*/
-const swaggerUi = require('swagger-ui-express'),
-    swaggerDocument = require('./swagger.json');
-/**
- * @swagger
- * components:
- *  schemas:
- *      listSchema:
- *          type: object
- *          required:
- *              - nombre
- *              - tipo
- *          properties:
- *              nombre:
- *                  type: string
- *                  description: El nombre de la lista
- *              tipo:
- *                  type: string
- *                  description: El tipo de lista
- *              descripcion:
- *                  type: string
- *                  description: Notas y descripcion de la lista
- *              imagen:
- *                  type: string
- *                  description: imagen a desplegar
- *              elementos:
- *                  type: array
- *                  description: contenido de la lista
- *              id:
- *                  type: string
- *                  description: identificador alfanumerico de la lista
- *              user:
- *                  type: string
- *                  description: Usuario al que le pertenece la lista
- *      userSchema:
- *          type: object
- *          required:
- *              - nombre
- *              - apellido
- *              - correo
- *              - password
- *              - url
- *              - sexo
- *              - id
- *          properties:
- *              nombre:
- *                  type: string
- *                  description: El nombre del usuario
- *              apellido:
- *                  type: string
- *                  description: El apellido del usuario
- *              correo:
- *                  type: string
- *                  description: Correo del usuario
- *              password:
- *                  type: string
- *                  description: Contraseña del usuario
- *              url:
- *                  type: string
- *                  description: Url de la imagen de perfil del usuario
- *              sexo:
- *                  type: string
- *                  description: Sexo del usuario
- *              id:
- *                  type: string
- *                  description: Identifificador del usuario
- */
-
-
-
-
 
 let listSchema = mongoose.Schema({
     nombre:{
@@ -187,9 +95,9 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    url:{
+    img:{
         type: String,
-        required: true,
+        required: false,
     },
     sexo:{
         type: String,
@@ -219,46 +127,13 @@ userSchema.statics.actualizarUsuario= async function(datos, id){
 
 const User = mongoose.model('usuarios',userSchema);
 
-/**
- * @swagger
- * /api/registro:
- *  post:
- *      summary: Crea un nuevo usuario y lo envia a la base de datos
- *      responses:
- *          200:  
- *              descripcion: El usuario se creo exitosamente
- *              content:
- *          400:
- *              descripcion: El usuario con esos datos ya existe 
- * /api/login:
- *  post:
- *      summary: Verifica los datos del usuario y le permite iniciar sesión
- *      responses:
- *          200:  
- *              descripcion: Se inicio sesion correctamente
- *              content:
- *          400:
- *              descripcion: El correo o la contraseña no son corectas
- * /api/perfil/id:
- *  get:
- *      summary: Verifica los datos del usuario y le permite iniciar sesión
- *      responses:
- *          200:  
- *              descripcion: Se inicio sesion correctamente
- *              content:
- *          400:
- *              descripcion: El correo o la contraseña no son corectas
- * /
-*/
-
-
 app.route('/api/registro')
     .post( async (req, res)=>{
         let finder= await searchRegistro(req.body.nombre,req.body.apellido,req.body.correo)
         if(finder==1){
             req.body.id=shortid.generate()
-            let {nombre, apellido, correo, password, url, sexo, id} = req.body;
-            let newUser = User({nombre, apellido, correo, password, url, sexo, id})
+            let {nombre, apellido, correo, password, img, sexo, id} = req.body;
+            let newUser = User({nombre, apellido, correo, password, img, sexo, id})
             let resp = await saveUser(newUser)
             res.status(201).send("Usuario guardado")
         }else{
@@ -283,10 +158,10 @@ app.route('/api/perfil/:id')
             res.status(200).send(finder);
         }else{
             res.status(404).send("No se ha encontrado a este usuario");
-        }
-        
+        } 
     })
 
+    
 
 app.route('/api/editar/:id')
 .put( async (req,res)=>{    
@@ -308,18 +183,6 @@ app.route('/api/editar/:id')
     }
 
 })
-
-app.route('/api/borrarU/:id')
-    .delete(async(req,res)=>{
-        let finder = await deleteUser(req.params.id)
-        if(finder){
-            res.status(200).send("Usuario borrado con exito");
-        }else{
-            res.status(404).send("No existe este usuario");
-        }
-        
-    })
-
 
 app.route('/api/getList/:user')
     .get( async (req,res) =>{
@@ -382,15 +245,6 @@ app.post("/upload", upload.single("doc"), (req, res)  =>{
 async function deleteList(id){
     try{
         let borrado = await List.findOneAndDelete({id})   
-        return(borrado);
-    }catch(e){
-        return(e);
-    } 
-}
-
-async function deleteUser(id){
-    try{
-        let borrado = await User.findOneAndDelete({id})   
         return(borrado);
     }catch(e){
         return(e);
@@ -508,10 +362,19 @@ app.route('/api/editL/:id')
         
     })
 
-app.use(
-        '/api-docs',
-        swaggerUi.serve, 
-        swaggerUi.setup(swaggerDocument)
-      );
+const server = app.listen(port, () => {
+    console.log(`ejecutando en http://localhost:${port}/`)
+})
 
-app.listen(port, () => console.log(`ejecutando en http://localhost:${port}/`))
+    // Socket.io
+const io = socketIo(server, {
+    cors: {
+      origin: '*'
+    }
+  });
+io.on('connection', socket => {
+    console.log('A user connected');
+    socket.on('login', data => {
+        console.log('A user just logged in. - ID: ', data);
+    })
+})

@@ -250,11 +250,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			
 		}
 
-		function saveList(lista){
-			localStorage.setItem("currentlist", lista);
-		}
-
-
 		function getL(id){
 			let xhr = new XMLHttpRequest;
 			xhr.open('GET','/api/getList/'+ id);
@@ -265,9 +260,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				let databoy = JSON.parse(xhr.response)
 				for(let i = 0; i < databoy.length; i++){
 					let idList = databoy[i].id;
-
+					let r = "currentlist";
 					document.getElementById("DaList").innerHTML += `<div class="mix col-lg-3 col-md-4 col-sm-6 ${databoy[i].tipo}"><div class="playlist-item">
-						<a href="singleslist.html" onclick ="saveList('${idList}')" ><img src="${databoy[i].imagen}" alt=""></a>
+						<a href="singleslist.html" onclick="saveList(${databoy[i].id})"><img src="${databoy[i].imagen}" alt=""></a>
 						<h5>${databoy[i].nombre}</h5>
 					</div></div>`;
 				}
@@ -277,7 +272,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		}
 
 
-		
+		function saveList(lista){
+			localStorage.setItem("currentlist", lista);
+		}
+
 		getL(localStorage.currentUser);
 		
 		function deleL(id){

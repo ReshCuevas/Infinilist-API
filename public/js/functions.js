@@ -1,6 +1,6 @@
 function DoctorDeleto(){
     let xhr = new XMLHttpRequest;
-    xhr.open('DELETE','/api/borrarL/'+ localStorage.currentlist);
+    xhr.open('DELETE','/api/borrarL/'+ localStorage.currentList);
     xhr.setRequestHeader('Content-Type','application/json');
     xhr.send();
     xhr.onload = function(){
@@ -10,17 +10,8 @@ function DoctorDeleto(){
     }
 }
 
-function DeletosRevenge(){
-    let xhr = new XMLHttpRequest;
-    xhr.open('DELETE','/api/borrarU/'+ localStorage.currentUser);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.send();
-    xhr.onload = function(){
-        if(xhr.status == 200){
-            console.log("Borrado exitoso");
-        }
-    }
-}
+
+
 
 function getS(id){
     let xhr = new XMLHttpRequest;
@@ -104,55 +95,3 @@ function elementorMaxSteele(id){
     document.getElementById("elem").innerHTML += `<li>${document.getElementById("newUrl").value}</li> <br>`
 
 }
-
-function loadUser(id){
-    //event.preventDefault();
-    let xhr = new XMLHttpRequest;
-    xhr.open('GET','/api/perfil/'+ id);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.send()
-    xhr.onload = function(){
-        
-        let databoy = JSON.parse(xhr.response)
-        let usrN = databoy.nombre + ' ' + databoy.apellido;
-        let usrC = databoy.correo;
-        var sx;
-        if(databoy.sexo == 'H'){
-            sx = "Hombre";
-        }else{
-            sx = "Mujer";
-        }
-        let usrI = databoy.url;
-        document.getElementById("userData").innerHTML = `<h3>${usrN}</h3>
-    <br>
-    Correo: ${usrC}
-    <br>
-    Sexo: ${sx}
-    <br>`
-        document.getElementById("userImg").innerHTML = `<img src="${usrI}"   class="fa fa-align-center " >`;
-    
-    }
-    
-
-}
-
-//loadUser(localStorage.currentUser);
-
-
-function logOut(){
-     localStorage.removeItem('currentUser');
-    location.reload();
-}
-
-function editUser(id){
-
-    let updator = {nombre: `${document.getElementById("chN").value}`, apellido: `${document.getElementById("chA").value}` ,correo: `${document.getElementById("chC").value}`, url: `${document.getElementById("pfp").value}`};
-
-    let xhr = new XMLHttpRequest;
-    xhr.open('PUT','/api/editar/'+ id);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.send(JSON.stringify(updator));
-    location.reload();
-}
-
-
