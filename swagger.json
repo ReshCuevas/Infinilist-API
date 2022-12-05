@@ -1,221 +1,427 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Infinilist",
-      "description": "A service to create lists and store information",
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Infinilist",
+    "description": "A service to create lists and store information",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+      "/api/registro": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "description": "Creacion de nuevo usuario",
+          "parameters": [
+            {
+              "data": "user",
+              "in": "body",
+              "description": "Data of user that will be to created",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "summary": "New user registration",
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "400": {
+              "description": "User already exists",
+              "schema": {
+                "$ref": "#/definitions/User"
+            }
+          }
+        } 
       }
-    },
-    "host": "localhost:3000",
-    "basePath": "/",
-    "tags": [
-      {
-        "name": "Users",
-        "description": "API for users in the system"
-      }
-    ],
-    "schemes": ["http"],
-    "consumes": ["application/json"],
-    "produces": ["application/json"],
-    "paths": {
-        "/api/registro": {
-          "post": {
+      },
+      "/api/login": {
+        "get": {
             "tags": [
               "User"
             ],
-            "description": "Creacion de nuevo usuario",
+            "description": "Inicio de sesión",
             "parameters": [
               {
-                "name": "user",
-                "in": "body",
-                "description": "User that we want to create",
-                "schema": {
-                  "$ref": "#/definitions/User"
-                }
-              }
-            ],
-            "produces": [
-              "application/json"
-            ],
+                  "id": "user",
+                  "in": "body",
+                  "description": "User that will login",
+                  "schema": {
+                      "$ref": "#/definitions/User"
+                      }
+                  }
+              ],
+            "summary": "User login",
             "responses": {
               "200": {
-                "description": "New user is created",
+                "description": "OK",
                 "schema": {
                   "$ref": "#/definitions/User"
                 }
               },
-              "400": {
-                "description": "User already exists",
+              "400":{
+                "description":"User or password are not correct",
                 "schema": {
-                  "$ref": "#/definitions/User"
-              }
-            }
-          } 
-        }
-        },
-        "/api/login": {
-          "get": {
-              "tags": [
-                "User"
-              ],
-              "description": "Inicio de sesión",
-              "parameters": [
-                {
-                    "id": "user",
-                    "in": "body",
-                    "description": "User that will login",
-                    "schema": {
-                        "$ref": "#/definitions/User"
-                        }
-                    }
-                ],
-              "summary": "Inicio de sesión",
-              "responses": {
-                "200": {
-                  "description": "OK",
-                  "schema": {
-                    "$ref": "#/definitions/User"
-                  }
-                },
-                "400":{
-                  "description":"User or password are not correct",
-                  "schema": {
-                    "$ref":"#/definitions/User"
-                  }
+                  "$ref":"#/definitions/User"
                 }
               }
             }
-        },
-        "/api/perfil/:id":{
-            "get":{
-              "tags": [
-                "User"
-              ]
-            }
-        },
-        "/api/editar/:id":{
-            "put":{
-              "tags": [
-                "User"
-              ]
-            }
-        },
-        "/api/borrarU/:id":{
-            "delete":{
-              "tags": [
-                "User"
-              ]
-            }
-        },
-        "'/api/getList/:user'":{
-            "get":{
-              "tags": [
-                "List"
-              ]
-            }
-        },
-        "/api/getSingle/:id":{
-            "get":{
-              "tags": [
-                "List"
-              ]
-            }
-        },
-        "/api/crearL":{
-            "post":{
-              "tags": [
-                "List"
-              ]
-            }
-        },
-        "/api/borrarL/:id":{
-            "delete":{
-              "tags": [
-                "List"
-              ]
-            }
-        },
-        "upload":{
-            "post":{
-              "tags": [
-                "List"
-              ]
-            }
-        }
-
+          }
       },
-      "definitions": {
-        "User": {
-          "required": [
-            "nombre",
-            "apellido",
-            "correo",
-            "password",
-            "url",
-            "sexo",
-            "id"
-          ],
-          "properties": {
-            "nombre": {
-              "type": "string"
-            },
-            "apellido": {
-                "type": "string"
-            },
-            "correo": {
-                "type": "string"
+      "/api/perfil/:id":{
+          "get":{
+            "tags": [
+              "User"
+            ],
+            "description": "Displays the logged user's data",
+            "parameters":[{
+              "id": "user",
+              "in": "body",
+              "description": "User that logged in",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }],
+            "summary": "User's information displayed on profile endpoint",
+            "responses":{
+              "200": {
+                "description": "OK",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
               },
-            "passsword": {
-              "type": "string"
-            },
-            "url": {
-              "type": "string"
-            },
-            "sexo":{
-                "type": "string"
-            },
-            "id":{
-                "type":"string"
+              "400":{
+                "description":"No se ha encontrado este usuario",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              }
             }
-            
-                  
+
+          }
+      },
+      "/api/editar/:id":{
+          "put":{
+            "tags": [
+              "User"
+            ],
+            "description":"Edit and update the users information",
+            "parameters":[
+              {
+              "id": "user",
+              "in": "body",
+              "description": "User that will have it's info updated",
+              "schema":{
+                "$ref":"#/definitions/User"
+              }
             }
-            
+          ],
+            "summary": "Edición de usuario",
+            "responses":{
+              "200":{
+                "description":"Se actualizó con exito",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              },
+              "400":{
+                "description":"No se modificó el usuario",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              }
+            }       
+          }
           },
-        "List": {
-            "required": [
-                "nombre",
-                "tipo"
-              ],
-            "properties":{
-                "nombre": {
-                    "type": "string"
-                  },
-                  "tipo": {
-                      "type": "string"
-                  },
-                  "descripcion": {
-                      "type": "string"
-                    },
-                  "imagen": {
-                    "type": "string"
-                  },
-                  "elementos": {
-                    "type": "array"
-                  },
-                  "id":{
-                      "type": "string"
-                  },
-                  "user":{
-                      "type":"string"
-                  }
+      "/api/borrarU/:id":{
+          "delete":{
+            "tags": [
+              "User"
+            ],
+            "description":"Borrado de usuario",
+            "parameters": [
+              {
+                "id":"user",
+                "in":"body",
+                "description":"User to be deleted",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              }
+            ],
+            "summary": "User deletion",
+            "responses":{
+              "200":{
+                "description":"Usuario borrado con exito",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              },
+              "400":{
+                "description":"No existe este usuario",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              }
             }
-        }
-        }
-        
-       
+          }
+      },
+      "'/api/getList/:user'":{
+          "get":{
+            "tags": [
+              "List"
+            ],
+            "description":"Display logged in user's lists",
+            "parameters":[
+              {
+                "id":"user",
+                "in":"body",
+                "description":"Logged in user",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+
+              }
+            ],
+            "summary":"Obtener listas del usuario",
+            "responses":{
+              "200":{
+                "description":"OK",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              },
+              "400":{
+                "description":"No hay coincidencias",
+                "schema":{
+                  "$ref":"#/definitions/User"
+                }
+              }
+            }
+          }
+      },
+      "/api/getSingle/:id":{
+          "get":{
+            "tags": [
+              "List"
+            ],
+            "description":"Display information of a particular list",
+            "parameters":[
+              {
+                "id":"list",
+                "in":"body",
+                "description":"List to be displayed",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            ],
+            "summary":"Obtener datos de una lista en particular",
+            "responses":{
+              "200":{
+                "description":"OK",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              },
+              "400":{
+                "description":"Nothing here",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            }
+          }
+      },
+      "/api/crearL":{
+          "post":{
+            "tags": [
+              "List"
+            ],
+            "description":"Create a list",
+            "parameters":[
+              {
+                "data":"list",
+                "in":"body",
+                "description":"Data of list that will be created",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            ],
+            "produces":[
+              "application/json"
+            ],
+            "responses":{
+              "200":{
+                "description":"Lista creada con exito",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              },
+              "400":{
+                "description":"Ya existe la lista",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            }
+          }
+      },
+      "/api/borrarL/:id":{
+          "delete":{
+            "tags": [
+              "List"
+            ],
+            "description":"Lista que se borrará",
+            "parameters":[
+              {
+                "id":"list",
+                "in":"body",
+                "description":"List to be deleted",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            ],
+            "summary": "Borrar una list en particular",
+            "responses":{
+              "200":{
+                "description":"Lista borrada con exito",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              },
+              "400":{
+                "description":"No existe la lista",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            }
+          }
+      },
+      "upload":{
+          "post":{
+            "tags": [
+              "List"
+            ],
+            "description":"Crga de una imagen a la lista",
+            "parameters":[
+              {
+                "filepath":"image",
+                "in":"body",
+                "description":"File to be uploaded",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            ],
+            "produces":[
+              "file"
+            ],
+            "responses":{
+              "200":{
+                "description":"file uploaded",
+                "schema":{
+                  "$ref":"#/definitions/List"
+                }
+              }
+            }
+          }
       }
-  
+
+    },
+    "definitions": {
+      "User": {
+        "required": [
+          "nombre",
+          "apellido",
+          "correo",
+          "password",
+          "url",
+          "sexo",
+          "id"
+        ],
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+              "type": "string"
+          },
+          "correo": {
+              "type": "string"
+            },
+          "passsword": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "sexo":{
+              "type": "string"
+          },
+          "id":{
+              "type":"string"
+          }
+          
+                
+          }
+          
+        },
+      "List": {
+          "required": [
+              "nombre",
+              "tipo"
+            ],
+          "properties":{
+              "nombre": {
+                  "type": "string"
+                },
+                "tipo": {
+                    "type": "string"
+                },
+                "descripcion": {
+                    "type": "string"
+                  },
+                "imagen": {
+                  "type": "string"
+                },
+                "elementos": {
+                  "type": "array"
+                },
+                "id":{
+                    "type": "string"
+                },
+                "user":{
+                    "type":"string"
+                }
+          }
+      }
+      }
+      
+     
+    }

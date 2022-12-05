@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const shortid = require('shortid');
 const mongoose = require('./db/mongodb-connect');
@@ -29,6 +29,83 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage: storage})
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                  Swagger
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerOptions = require('./swagger.config');
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+*/
+const swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./swagger.json');
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      listSchema:
+ *          type: object
+ *          required:
+ *              - nombre
+ *              - tipo
+ *          properties:
+ *              nombre:
+ *                  type: string
+ *                  description: El nombre de la lista
+ *              tipo:
+ *                  type: string
+ *                  description: El tipo de lista
+ *              descripcion:
+ *                  type: string
+ *                  description: Notas y descripcion de la lista
+ *              imagen:
+ *                  type: string
+ *                  description: imagen a desplegar
+ *              elementos:
+ *                  type: array
+ *                  description: contenido de la lista
+ *              id:
+ *                  type: string
+ *                  description: identificador alfanumerico de la lista
+ *              user:
+ *                  type: string
+ *                  description: Usuario al que le pertenece la lista
+ *      userSchema:
+ *          type: object
+ *          required:
+ *              - nombre
+ *              - apellido
+ *              - correo
+ *              - password
+ *              - url
+ *              - sexo
+ *              - id
+ *          properties:
+ *              nombre:
+ *                  type: string
+ *                  description: El nombre del usuario
+ *              apellido:
+ *                  type: string
+ *                  description: El apellido del usuario
+ *              correo:
+ *                  type: string
+ *                  description: Correo del usuario
+ *              password:
+ *                  type: string
+ *                  description: Contraseña del usuario
+ *              url:
+ *                  type: string
+ *                  description: Url de la imagen de perfil del usuario
+ *              sexo:
+ *                  type: string
+ *                  description: Sexo del usuario
+ *              id:
+ *                  type: string
+ *                  description: Identifificador del usuario
+ */
 
 let listSchema = mongoose.Schema({
     nombre:{
@@ -72,6 +149,7 @@ listSchema.statics.actualizarLista = async function(datos, id){
         console.log(error);
         return false
     }
+    
     
 }
 
@@ -142,6 +220,38 @@ userSchema.statics.actualizarUsuario= async function(datos, id){
 }
 
 const User = mongoose.model('usuarios',userSchema);
+
+/**
+ * @swagger
+ * /api/registro:
+ *  post:
+ *      summary: Crea un nuevo usuario y lo envia a la base de datos
+ *      responses:
+ *          200:  
+ *              descripcion: El usuario se creo exitosamente
+ *              content:
+ *          400:
+ *              descripcion: El usuario con esos datos ya existe 
+ * /api/login:
+ *  post:
+ *      summary: Verifica los datos del usuario y le permite iniciar sesión
+ *      responses:
+ *          200:  
+ *              descripcion: Se inicio sesion correctamente
+ *              content:
+ *          400:
+ *              descripcion: El correo o la contraseña no son corectas
+ * /api/perfil/id:
+ *  get:
+ *      summary: Verifica los datos del usuario y le permite iniciar sesión
+ *      responses:
+ *          200:  
+ *              descripcion: Se inicio sesion correctamente
+ *              content:
+ *          400:
+ *              descripcion: El correo o la contraseña no son corectas
+ * /
+*/
 
 app.route('/api/registro')
     .post( async (req, res)=>{
@@ -373,9 +483,6 @@ async function saveUser(newUser){
     let resp = await User.find();
     return (resp)
 }
-
-    
-
 
 app.route('/api/editL/:id')
     .put( async (req,res)=>{    
