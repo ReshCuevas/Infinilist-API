@@ -4,7 +4,6 @@ const fs = require('fs');
 const port = 3000;
 const cors = require('cors');
 const shortid = require('shortid');
-const users = JSON.parse(fs.readFileSync('usuarios.json'))
 const mongoose = require('./db/mongodb-connect');
 const {mongo} = require('mongoose');
 const multer  = require('multer');
