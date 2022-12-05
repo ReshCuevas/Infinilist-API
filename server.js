@@ -75,6 +75,23 @@ listSchema.statics.actualizarLista = async function(datos, id){
     
 }
 
+listSchema.statics.añadirElementos= async function(datos, id){
+    try {
+        console.log(datos);
+        await List.findOneAndUpdate(
+            {id},
+            {$push: {'elementos':datos}},
+            {new:true,
+            useFindAndModify:false})
+        return true
+    } catch (error) {
+        console.log("Error actualizando lista");
+        console.log(error);
+        return false
+    }
+    
+}
+
 const List = mongoose.model('listas', listSchema);
 
 let userSchema = mongoose.Schema({
@@ -229,6 +246,27 @@ app.route('/api/borrarL/:id')
     })
 
 
+    app.route('/api/elementos/:id')
+    .put(async(req,res)=>{
+        try{
+             let doc = await searchList(req.params.id);
+             if(doc){
+                console.log(req.body);
+                console.log(req.body.elementos);
+                console.log(typeof req.body.elementos);
+                let x = await List.añadirElementos(req.body.elementos, req.params.id);
+                if(x==true){
+                    res.status(200).send("Se añadio con exito")
+                }else{
+                    res.status(400).send("No se modifico la lista")
+                }
+                
+             }
+            }catch(err){
+                console.log(err);
+                res.status(404).send({error:"No se encontró la lista"})
+            }
+    })
 
 
 app.get("/upload", (req,res) => {
